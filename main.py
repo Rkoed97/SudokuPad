@@ -1,3 +1,5 @@
+#! /usr/bin/python
+
 from tkinter import Frame, Button, Entry, OptionMenu, StringVar, Label
 from utils import frames, buttons, slugs, screen, message, rule, board_clear, open_puzzle, save_puzzle
 from butt import Butt, Number, curr_B

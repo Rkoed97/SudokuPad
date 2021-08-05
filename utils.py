@@ -147,7 +147,7 @@ def save_puzzle(event=None):
 	try:
 		with open(puzzle_file, 'wb') as f:
 			dump(data, f)
-		message.set(f"Puzzle saved successfully to {puzzle_file}")
+		message.set(f"Puzzle saved successfully to {puzzle_file.split('/')[-1]}")
 	except:
 		# message.set(e)
 		...
