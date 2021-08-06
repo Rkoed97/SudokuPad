@@ -14,9 +14,16 @@ class Butt(Button):
 		self['font'] = my_font
 
 	def set_current(self):
+
+		x = check(self.position[0], self.position[1], 1)
+
 		for i in buttons:
 			for j in i:
 				j.config(bg="lightgrey")
+
+		for i in x[1]:
+			i.config(bg="#b7a4d2")
+
 		self.config(bg='grey')
 		global curr_B
 		curr_B = self
@@ -33,7 +40,7 @@ class Number(Button):
 	def set_value(self):
 		x, y = curr_B.position
 
-		validity = self.check(x, y, self.value)
+		validity = check(x, y, self.value)[0]
 
 		for r, v in validity.items():
 			if(v):
@@ -43,19 +50,28 @@ class Number(Button):
 			curr_B.value.set(self.value)
 			message.set("")
 
-	def check(self, *args):
+def check(*args):
 
-		rules = slugs[rule.get()].split('+')
-		validity = {}
+	rules = slugs[rule.get()].split('+')
+	active_buttons = []
+	validity = {}
 
-		for i in rules:
-			if i == "classic":
-				validity['classic'] = classic_check(*args)
-			elif i == "king":
-				validity['king'] = king_check(*args)
-			elif i == "knight":
-				validity['knight'] = knight_check(*args)
-			elif i == "adjacent":
-				validity['adjacent'] = adjacent_check(*args)
+	for i in rules:
+		if i == "classic":
+			classic = classic_check(*args)
+			validity['classic'] = classic[0]
+			active_buttons = active_buttons+classic[1]
+		elif i == "king":
+			king = king_check(*args)
+			validity['king'] = king[0]
+			active_buttons = active_buttons+king[1]
+		elif i == "knight":
+			knight = knight_check(*args)
+			validity['knight'] = knight[0]
+			active_buttons = active_buttons+knight[1]
+		elif i == "adjacent":
+			adjacent = adjacent_check(*args)
+			validity['adjacent'] = adjacent[0]
+			active_buttons = active_buttons+adjacent[1]
 
-		return validity
+	return (validity, list(set(active_buttons)))

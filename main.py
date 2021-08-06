@@ -3,7 +3,6 @@
 from tkinter import Frame, Button, Entry, OptionMenu, StringVar, Label
 from utils import frames, buttons, slugs, screen, message, rule, board_clear, open_puzzle, save_puzzle
 from butt import Butt, Number, curr_B
-from numpy import array, append as add
 
 def mark(event):
 	if event.char in "123456789":

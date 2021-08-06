@@ -33,7 +33,7 @@ def knight_check(x, y, value:str):
 	knight = []
 	positions = [(-1, -2), (-2, -1), (-2, 1), (-1, 2),
 				(1, -2), (2, -1), (2, 1), (1, 2)]
-	check = lambda x, y: knight.append(buttons[x][y]['text'])
+	check = lambda x, y: knight.append(buttons[x][y])
 
 	for i in positions:
 		try:
@@ -42,7 +42,9 @@ def knight_check(x, y, value:str):
 		except:
 			...
 
-	return value in knight
+	knight_text = [i['text'] for i in knight]
+
+	return (value in knight_text, knight) 
 
 def king_check(x, y, value:str):
 	king = []
@@ -50,7 +52,7 @@ def king_check(x, y, value:str):
 				(0, -1), (0, 1),
 				(1, -1), (1, 0), (1, 1)]
 
-	check = lambda x, y: king.append(buttons[x][y]['text'])
+	check = lambda x, y: king.append(buttons[x][y])
 
 	for i in positions:
 		try:
@@ -58,13 +60,15 @@ def king_check(x, y, value:str):
 		except:
 			...
 
-	return value in king
+	king_text = [i['text'] for i in king]
+
+	return (value in king_text, king)
 
 def adjacent_check(x, y, value:str):
 	adjacent = []
 	positions = [(-1, 0), (0, 1), (0, -1), (1, 0)]
 
-	check = lambda x, y:adjacent.append(buttons[x][y]['text'])
+	check = lambda x, y:adjacent.append(buttons[x][y])
 
 	for i in positions:
 		try:
@@ -72,26 +76,33 @@ def adjacent_check(x, y, value:str):
 		except:
 			...
 
-	return (str(int(value) + 1) in adjacent) or (str(int(value)-1) in adjacent)
+	adjacent_text = [i['text'] for i in adjacent]
+
+	return ((str(int(value) + 1) in adjacent_text) or (str(int(value)-1) in adjacent_text), adjacent)
 
 def classic_check(x, y, value:str):
 	numbersx, numbersy, box = [], [], []
 
 	for j in range(9):
-		numbersx.append(buttons[x][j]['text'])
+		numbersx.append(buttons[x][j])
 
 	for i in range(9):
-		numbersy.append(buttons[i][y]['text'])
+		numbersy.append(buttons[i][y])
 
 	for i in frames[x//3][y//3].winfo_children():
-		box.append(i['text'])
+		box.append(i)
 
-	return (value in numbersx) or (value in numbersy) or (value in box)
+	numbersx_text = [i['text'] for i in numbersx]
+	numbersy_text = [i['text'] for i in numbersy]
+	box_text = [i['text'] for i in box]
+
+	return ((value in numbersx_text) or (value in numbersy_text) or (value in box_text), list(set(numbersx+numbersy+box)))
 
 def board_clear(event=None):
 	for i in buttons:
 		for j in i:
 			j.value.set("")
+			j.config(bg="lightgrey")
 	
 	message.set("Board has been cleared!\nRules have been updated!")
 
