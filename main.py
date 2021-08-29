@@ -2,12 +2,25 @@
 
 from tkinter import Frame, Button, Entry, OptionMenu, StringVar, Label
 from utils import frames, buttons, slugs, screen, message, rule, board_clear, open_puzzle, save_puzzle
-from butt import Butt, Number, curr_B
+from butt import Butt, Number
 
 def mark(event):
-	if event.char in "123456789":
-		Number.set_value(Number(frame_numbers, value=int(event.char)))
+	from butt import curr_B
 
+	try:
+		if event.keysym == "Up" and curr_B.position[0] > 0:
+			Butt.set_current(buttons[curr_B.position[0]-1][curr_B.position[1]])
+		elif event.keysym == "Down" and curr_B.position[0] < 8:
+			Butt.set_current(buttons[curr_B.position[0]+1][curr_B.position[1]])
+		elif event.keysym == "Left" and curr_B.position[1] > 0:
+			Butt.set_current(buttons[curr_B.position[0]][curr_B.position[1]-1])
+		elif event.keysym == "Right" and curr_B.position[1] < 8:
+			Butt.set_current(buttons[curr_B.position[0]][curr_B.position[1]+1])
+		elif event.char in "123456789":
+			Number.set_value(Number(frame_numbers, value=int(event.char)))
+	except:
+		...
+		
 master_frame = Frame(screen)
 
 

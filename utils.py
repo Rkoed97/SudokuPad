@@ -56,7 +56,8 @@ def king_check(x, y, value:str):
 
 	for i in positions:
 		try:
-			check(x+i[0], y+i[1])
+			if (x+i[0] >= 0 and y+i[1] >= 0):
+				check(x+i[0], y+i[1])
 		except:
 			...
 
